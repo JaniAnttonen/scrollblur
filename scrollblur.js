@@ -1,21 +1,22 @@
 /*
- * Blurs an element with CSS3 blur filter
- * with given parameters
- *
- * Requires jQuery.
- *
- * @author Jani Anttonen
- */
-$(document).scroll(function() {
+* Blurs an element with CSS3 blur filter
+* with given parameters
+*
+* Requires jQuery.
+*
+* @author Jani Anttonen
+*/
 
-    // Element which sits on top of the blurrable area
+function scrollBlur(){
+
+    // Element which is getting the blur treatment
     var curtain = $("#curtain");
 
     // Amount of pixels where blur reaches the desired value
-    var stop = 460;
-    
+    var stop = 260;
+
     // Blur amount in pixels at 100%
-    var blurFull = 10;
+    var blurFull = 20;
 
     // Value in pixels how far the page has been scrolled
     var position = $(document).scrollTop();
@@ -23,18 +24,21 @@ $(document).scroll(function() {
     // Calculated real time blur amount at position
     var blurAmount = (stop>position) ? position / stop * blurFull : blurFull;
 
-    // Calculated real time zoom amount at position
-    var backGroundZoomAmount = position / stop * blurFull + 100;
-
-    // Demo text, uncomment in production to see if jQuery is loaded properly
-    $( "p:last" ).text( "scrollTop:" + position );
+    // Calculated real time zoom amount at position (to hide the underlying background color)
+    var backGroundZoomAmount = (stop>position) ? position / stop * blurFull + 100 : blurFull + 100;
 
     /* -------------------------
        Where the magic happens
      --------------------------*/
-    if(backGroundZoomAmount>=100 && blurAmount<blurFull){
-        curtain.css("transform","scale(" + (backGroundZoomAmount/100) + ")");
-        curtain.css("filter","blur(" + blurAmount + "px)");
-        curtain.css("-webkit-filter","blur(" + blurAmount + "px)");
-    }
-});
+    curtain.css("transform","scale(" + (backGroundZoomAmount/100) + ")");
+    curtain.css("filter","blur(" + blurAmount + "px)");
+    curtain.css("-webkit-filter","blur(" + blurAmount + "px)");
+    curtain.css("-mozilla-filter","blur(" + blurAmount + "px)");
+
+}
+
+// Call the function on page load
+$(function(){scrollBlur();})
+
+// Call the function when page is scrolled
+$(document).scroll(function(){scrollBlur();});
