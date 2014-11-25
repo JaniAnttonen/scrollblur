@@ -1,6 +1,6 @@
 #curtain, #curtain * {
 	position:fixed;
-	height:100%;width:auto;
+/*	height:100%;width:auto;	*/
 	display:block;
 	/*background:url('../img/bgmosh.png');*/
 	background-position: top center;
